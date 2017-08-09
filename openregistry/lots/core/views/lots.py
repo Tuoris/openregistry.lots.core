@@ -14,6 +14,7 @@ from openregistry.lots.core.utils import (
 )
 from openregistry.lots.core.validation import (
     validate_lot_data,
+    validate_post_lot_role,
 )
 
 
@@ -34,7 +35,7 @@ class LotsResource(APIResourceListing):
         self.log_message_id = 'lot_list_custom'
 
     @json_view(content_type="application/json", permission='create_lot',
-               validators=(validate_lot_data,))
+               validators=(validate_lot_data, validate_post_lot_role))
     def post(self):
         """This API request is targeted to creating new Lot."""
         lot_id = generate_id()

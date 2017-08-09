@@ -22,6 +22,13 @@ def validate_lot_data(request, error_handler, **kwargs):
         raise error_handler(request)
 
 
+def validate_post_lot_role(request, error_handler, **kwargs):
+    if request.authenticated_role in ('bot1', 'bot2'):
+        request.errors.add('body', 'accreditation', 'Can\'t create lot as bot')
+        request.errors.status = 403
+        raise error_handler(request)
+
+
 def validate_patch_lot_data(request, error_handler, **kwargs):
     data = validate_json_data(request)
     if request.context.status != 'draft':
